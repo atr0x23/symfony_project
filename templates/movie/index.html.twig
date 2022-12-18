@@ -8,7 +8,7 @@
                 <div class="card mt-2 mb-5">
                     <div class="card-header text-center">
                         Welcome to &nbsp;&nbsp;&nbsp; M o v i e s &nbsp; | &nbsp;&nbsp;
-                        <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">byDate</a>&nbsp;&nbsp;
+                        <a href="{{ path('app_bydate') }}" class="btn btn-primary active" role="button" aria-pressed="true">byDate</a>&nbsp;&nbsp;
                         {% if app.user %}
                             <a href="#" class="btn btn-success active" role="button" aria-pressed="true">add movie</a>
                         {% endif %}

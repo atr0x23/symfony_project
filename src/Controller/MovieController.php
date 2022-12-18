@@ -28,4 +28,12 @@ class MovieController extends AbstractController
         $movies = $movieRepository->findAll();
         return $this->render('movie/index.html.twig', ['movies' => $movies]);
     }
+
+    #[Route('/bydate', name:'app_bydate')]
+    public function bydate(MovieRepository $movieRepository):Response {
+
+        $movies = $movieRepository->findBy([],['created_at' => 'DESC']);
+        return $this->render('movie/index.html.twig', ['movies' => $movies]);
+
+    }
 }
