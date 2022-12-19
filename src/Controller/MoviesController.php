@@ -28,4 +28,10 @@ class MoviesController extends AbstractController
         return $this->render('movie/index.html.twig', ['movies' => $movies]);
 
     }
+
+    #[Route('/movie/create', name: 'app_create')]
+    public function createMovie():Response
+    {
+        return $this->render('movie/create.html.twig');
+    }
 }
