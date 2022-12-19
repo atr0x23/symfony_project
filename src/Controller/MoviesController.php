@@ -2,17 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Movies;
+use App\Form\MoviesFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MoviesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 
 class MoviesController extends AbstractController
 {
+    private $em;
+    private $token;
+
+    public function __construct(EntityManagerInterface $em, TokenStorageInterface $token)
+    {
+        $this->em = $em;
+        $this->token = $token;
+    }
 
     #[Route('/movie', name: 'app_movies')]
     public function index(MoviesRepository $moviesRepository): Response
@@ -30,8 +41,29 @@ class MoviesController extends AbstractController
     }
 
     #[Route('/movie/create', name: 'app_create')]
-    public function createMovie():Response
+    public function createMovie(Request $request):Response
     {
-        return $this->render('movie/create.html.twig');
+        $movie = new Movies();
+        $form = $this->createForm(MoviesFormType::class, $movie);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $newMovie = $form->getData();
+            $current = $this->token->getToken()->getUser();
+            $newMovie->setUser($current);
+
+            $this->em->persist($newMovie);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_movies');
+        }
+
+
+
+        return $this->render('movie/create.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
