@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MoviesRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 class MoviesController extends AbstractController
 {
-    #[Route('/movies', name: 'app_movies')]
+
+    #[Route('/movie', name: 'app_movies')]
     public function index(MoviesRepository $moviesRepository): Response
     {
         $movies = $moviesRepository->findAll();
