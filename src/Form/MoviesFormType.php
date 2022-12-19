@@ -14,7 +14,7 @@ class MoviesFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('createdAt')
+//            ->add('createdAt')
 //            ->add('user')
             ;
     }

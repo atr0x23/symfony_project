@@ -53,6 +53,7 @@ class MoviesController extends AbstractController
             $newMovie = $form->getData();
             $current = $this->token->getToken()->getUser();
             $newMovie->setUser($current);
+            $newMovie->setCreatedAt(new \DateTimeImmutable());
 
             $this->em->persist($newMovie);
             $this->em->flush();
