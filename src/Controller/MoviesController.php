@@ -58,7 +58,9 @@ class MoviesController extends AbstractController
             $this->em->persist($newMovie);
             $this->em->flush();
 
-            return $this->redirectToRoute('app_movies');
+            $this->addFlash('success', 'movie has been submitted!');
+            return $this->redirectToRoute('app_create');
+
         }
 
 
