@@ -40,6 +40,13 @@ class MoviesController extends AbstractController
 
     }
 
+    #[Route('/byuser/{id}', name: 'app_byuser')]
+    public function byuser(MoviesRepository $moviesRepository, $id):Response
+    {
+        $movies = $moviesRepository->findBY(['user' => $id] );
+        return $this->render('movie/index.html.twig', ['movies' => $movies]);
+    }
+
     #[Route('/movie/create', name: 'app_create')]
     public function createMovie(Request $request):Response
     {

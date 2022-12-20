@@ -22,7 +22,7 @@
                     <div class="card border-secondery mb-3">
                         <div class="card-header d-flex justify-content-between">
                             <h3> {{ movie.title }} </h3>
-                            <div>By <a href="#"> {{ movie.user.email }} </a></div>
+                            <div>By <a href="{{ path('app_byuser', {id: movie.user.id}) }}"> {{ movie.user.email }} </a></div>
                         </div>
 
                         <div class="card-body">
