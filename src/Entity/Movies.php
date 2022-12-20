@@ -94,4 +94,15 @@ class Movies
 
         return $this;
     }
+
+    #custom functions for increase the likes
+    public function likeVote():void
+    {
+        $this->votes++;
+    }
+    #custom functions for increase the dislikes
+    public function dislikeVote():void
+    {
+        $this->votes--;
+    }
 }

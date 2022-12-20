@@ -61,6 +61,7 @@ class MoviesController extends AbstractController
             $current = $this->token->getToken()->getUser();
             $newMovie->setUser($current);
             $newMovie->setCreatedAt(new \DateTimeImmutable());
+            $newMovie->setVotes(0);
 
             $this->em->persist($newMovie);
             $this->em->flush();
@@ -80,9 +81,9 @@ class MoviesController extends AbstractController
     {
         $direction = $request->request->get('direction', 'like');
         if($direction === 'like'){
-            $movies->setVotes($movies->getVotes() + 1);
+            $movies->likeVote();//custom function 
         } else{
-            $movies->setVotes($movies->getVotes() - 1);
+            $movies->dislikeVote();//custom function
         }
 
         $entityManager->persist($movies);
