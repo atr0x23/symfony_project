@@ -35,10 +35,10 @@
                             {% if app.user %}
                                 {% if app.user.userIdentifier != movie.user.email %}
                                 <small>
-                            <span title="likes" id="saveLikeDislike" data-type="like" data-post="#" class="mr-2 btn btn-sm btn-outline-primary d-inline font-weight-bold">
-                            Like </span>
-                                    <span title="hates" id="saveLikeDislike" data-type="dislike" data-post="#" class="mr-2 btn btn-sm btn-outline-danger d-inline font-weight-bold">
-                            Hate</span>
+                            <button type="submit" name="direction" value="like" class="mr-2 btn btn-sm btn-outline-primary d-inline font-weight-bold">
+                                <span class="fa fa-thumbs-up"></span> </button>
+                                    <button type="submit" name="direction" value="dislike" class="mr-2 btn btn-sm btn-outline-danger d-inline font-weight-bold">
+                                <span class="fa fa-thumbs-down"></span></button>
                                 </small>
                             {% endif %}
                             {% endif %}
