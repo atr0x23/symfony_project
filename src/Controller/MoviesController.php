@@ -70,10 +70,24 @@ class MoviesController extends AbstractController
 
         }
 
-
-
         return $this->render('movie/create.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/movie/{id}/vote', name: 'app_movie_vote', methods: ['POST'])]
+    public function vote(Movies $movies, Request $request, EntityManagerInterface $entityManager):Response
+    {
+        $direction = $request->request->get('direction', 'like');
+        if($direction === 'like'){
+            $movies->setVotes($movies->getVotes() + 1);
+        } else{
+            $movies->setVotes($movies->getVotes() - 1);
+        }
+
+        $entityManager->persist($movies);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_movies');
     }
 }
