@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MoviesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Doctrine\Persistence\ManagerRegistry;
 
 
 class MoviesController extends AbstractController
