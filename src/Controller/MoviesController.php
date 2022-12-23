@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Movies;
+use App\Entity\LikeDislike;
 use App\Form\MoviesFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MoviesRepository;
+use App\Repository\LikeDislikeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -25,17 +28,18 @@ class MoviesController extends AbstractController
     }
 
     #[Route('/movie', name: 'app_movies')]
-    public function index(MoviesRepository $moviesRepository): Response
+    public function index(LikeDislikeRepository $likeDislikeRepository): Response
     {
-        $movies = $moviesRepository->findAll();
-        return $this->render('movie/index.html.twig', ['movies' => $movies]);
+        //$movies = $moviesRepository->findAll();
+        $votes = $likeDislikeRepository->findAll();
+        return $this->render('movie/index.html.twig', ['votes'=> $votes]);
     }
 
     #[Route('/bydate', name:'app_bydate')]
-    public function bydate(MoviesRepository $moviesRepository):Response {
+    public function bydate(LikeDislikeRepository $likeDislikeRepository):Response {
 
-        $movies = $moviesRepository->findBy([],['createdAt' => 'DESC']);
-        return $this->render('movie/index.html.twig', ['movies' => $movies]);
+        $votes = $likeDislikeRepository->findBy([],['movie' => 'DESC']);
+        return $this->render('movie/bydate.html.twig', ['votes' => $votes]);
 
     }
 
@@ -75,19 +79,36 @@ class MoviesController extends AbstractController
         ]);
     }
 
-    #[Route('/movie/{id}/vote', name: 'app_movie_vote', methods: ['POST'])]
-    public function vote(Movies $movies, Request $request, EntityManagerInterface $entityManager):Response
+//    #[Route('/movie/{id}/vote', name: 'app_movie_vote', methods: ['POST'])]
+//    public function vote(Movies $movies, Request $request, EntityManagerInterface $entityManager):Response
+//    {
+//        $direction = $request->request->get('direction', 'like');
+//        if($direction === 'like'){
+//            $movies->likeVote();//custom function
+//        } else{
+//            $movies->dislikeVote();//custom function
+//        }
+//
+//        $entityManager->persist($movies);
+//        $entityManager->flush();
+//
+//        return $this->redirectToRoute('app_movies');
+//    }
+
+    #[Route('/vote/{id}/likedislike', name: 'app_vote_likedislike', methods: ['post'])]
+    public function vote(LikeDislike $votes, Request $request, EntityManagerInterface $entityManager):Response
     {
         $direction = $request->request->get('direction', 'like');
         if($direction === 'like'){
-            $movies->likeVote();//custom function 
+            $votes->likeVote();//custom function
         } else{
-            $movies->dislikeVote();//custom function
+            $votes->dislikeVote();//custom function
         }
 
-        $entityManager->persist($movies);
+        $entityManager->persist($votes);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_movies');
+        return $this->redirectToRoute('app_movies', ['votes' => $votes]);
     }
+
 }

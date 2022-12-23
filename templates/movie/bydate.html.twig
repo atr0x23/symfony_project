@@ -36,13 +36,13 @@
 
                             {% if app.user %}
                                 {% if app.user.userIdentifier != vote.user.email %}
-                                <form action="{{ path('app_vote_likedislike', {id: vote.movie.id}) }}" method="post">
-                            <button type="submit" name="direction" value="like" class="mr-2 btn btn-sm btn-outline-primary d-inline font-weight-bold">
-                                <span class="fa fa-thumbs-up"></span> </button>
-                                    <button type="submit" name="direction" value="dislike" class="mr-2 btn btn-sm btn-outline-danger d-inline font-weight-bold">
-                                <span class="fa fa-thumbs-down"></span></button>
-                                </form>
-                            {% endif %}
+                                    <form action="{{ path('app_vote', {id: vote.movie.id}) }}" method="post">
+                                        <button type="submit" name="direction" value="like" class="mr-2 btn btn-sm btn-outline-primary d-inline font-weight-bold">
+                                            <span class="fa fa-thumbs-up"></span> </button>
+                                        <button type="submit" name="direction" value="dislike" class="mr-2 btn btn-sm btn-outline-danger d-inline font-weight-bold">
+                                            <span class="fa fa-thumbs-down"></span></button>
+                                    </form>
+                                {% endif %}
                             {% endif %}
 
                             {# <div class="text-center"></div>#}
