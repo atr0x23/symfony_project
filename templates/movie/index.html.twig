@@ -18,25 +18,25 @@
                     <div class="text-center mb-3"> Welcome, {{ app.user.userIdentifier }} </div>
                 {% endif %}
 
-                {% for vote in votes %}
+                {% for movie in movies %}
                     <div class="card border-secondery mb-3">
                         <div class="card-header d-flex justify-content-between">
-                            <h3> {{ vote.movie.title }} </h3>
-                            <div>By <a href="{{ path('app_byuser', {id: vote.user.id}) }}"> {{ vote.user.email }} </a></div>
+                            <h3> {{ movie.title }} </h3>
+                            <div>By <a href="{{ path('app_byuser', {id: movie.user.id}) }}"> {{ movie.user.email }} </a></div>
                         </div>
 
                         <div class="card-body">
-                            {{ vote.movie.description }}
+                            {{ movie.description }}
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
 
-                            <div><span class="text-primary">likes {{ vote.likes }}</span> | <span class="text-danger"> hates {{ vote.dislikes }} </span></div>
+                            <div><span class="text-primary">likes {{ movie.likes }}</span> | <span class="text-danger"> hates {{ movie.dislikes }} </span></div>
 
 
                             {% if app.user %}
-                                {% if app.user.userIdentifier != vote.user.email %}
-                                <form action="{{ path('app_vote_likedislike', {id: vote.movie.id}) }}" method="post">
+                                {% if app.user.userIdentifier != movie.user.email %}
+                                <form action="{{ path('app_vote', {id: movie.id}) }}" method="post">
                             <button type="submit" name="direction" value="like" class="mr-2 btn btn-sm btn-outline-primary d-inline font-weight-bold">
                                 <span class="fa fa-thumbs-up"></span> </button>
                                     <button type="submit" name="direction" value="dislike" class="mr-2 btn btn-sm btn-outline-danger d-inline font-weight-bold">
@@ -46,7 +46,7 @@
                             {% endif %}
 
                             {# <div class="text-center"></div>#}
-                            <div class="text-muted">{{ vote.movie.createdAt.format( ' d-m-Y H:i:s ' ) }}</div>
+                            <div class="text-muted">{{ movie.createdAt.format( ' d-m-Y H:i:s ' ) }}</div>
                         </div>
 
                     </div>

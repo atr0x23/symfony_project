@@ -28,18 +28,18 @@ class MoviesController extends AbstractController
     }
 
     #[Route('/movie', name: 'app_movies')]
-    public function index(LikeDislikeRepository $likeDislikeRepository): Response
+    public function index(MoviesRepository $moviesRepository): Response
     {
-        //$movies = $moviesRepository->findAll();
-        $votes = $likeDislikeRepository->findAll();
-        return $this->render('movie/index.html.twig', ['votes'=> $votes]);
+        $movies = $moviesRepository->findAll();
+//        $votes = $likeDislikeRepository->findAll();
+        return $this->render('movie/index.html.twig', ['movies'=> $movies]);
     }
 
     #[Route('/bydate', name:'app_bydate')]
-    public function bydate(LikeDislikeRepository $likeDislikeRepository):Response {
+    public function bydate(MoviesRepository $moviesRepository):Response {
 
-        $votes = $likeDislikeRepository->findBy([],['movie' => 'DESC']);
-        return $this->render('movie/bydate.html.twig', ['votes' => $votes]);
+        $movies = $moviesRepository->findBy([],['createdAt' => 'DESC']);
+        return $this->render('movie/bydate.html.twig', ['movies' => $movies]);
 
     }
 
@@ -64,7 +64,7 @@ class MoviesController extends AbstractController
             $current = $this->token->getToken()->getUser();
             $newMovie->setUser($current);
             $newMovie->setCreatedAt(new \DateTimeImmutable());
-            $newMovie->setVotes(0);
+            //$newMovie->setVotes(0);
 
             $this->em->persist($newMovie);
             $this->em->flush();
@@ -79,24 +79,8 @@ class MoviesController extends AbstractController
         ]);
     }
 
-//    #[Route('/movie/{id}/vote', name: 'app_movie_vote', methods: ['POST'])]
-//    public function vote(Movies $movies, Request $request, EntityManagerInterface $entityManager):Response
-//    {
-//        $direction = $request->request->get('direction', 'like');
-//        if($direction === 'like'){
-//            $movies->likeVote();//custom function
-//        } else{
-//            $movies->dislikeVote();//custom function
-//        }
-//
-//        $entityManager->persist($movies);
-//        $entityManager->flush();
-//
-//        return $this->redirectToRoute('app_movies');
-//    }
-
-    #[Route('/vote/{id}/likedislike', name: 'app_vote_likedislike', methods: ['post'])]
-    public function vote(LikeDislike $votes, Request $request, EntityManagerInterface $entityManager):Response
+    #[Route('/movie/{id}/vote', name: 'app_vote', methods: ['post'])]
+    public function vote(Movies $votes, Request $request, EntityManagerInterface $entityManager):Response
     {
         $direction = $request->request->get('direction', 'like');
         if($direction === 'like'){

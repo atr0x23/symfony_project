@@ -27,8 +27,15 @@ class Movies
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    private ?int $votes = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $voted = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $likes = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $dislikes = null;
+
 
     public function getId(): ?int
     {
@@ -83,14 +90,38 @@ class Movies
         return $this;
     }
 
-    public function getVotes(): ?int
+    public function isVoted(): ?bool
     {
-        return $this->votes;
+        return $this->voted;
     }
 
-    public function setVotes(int $votes): self
+    public function setVoted(?bool $voted): self
     {
-        $this->votes = $votes;
+        $this->voted = $voted;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    public function getDislikes(): ?int
+    {
+        return $this->dislikes;
+    }
+
+    public function setDislikes(?int $dislikes): self
+    {
+        $this->dislikes = $dislikes;
 
         return $this;
     }
@@ -98,11 +129,11 @@ class Movies
     #custom functions for increase the likes
     public function likeVote():void
     {
-        $this->votes++;
+        $this->likes++;
     }
     #custom functions for increase the dislikes
     public function dislikeVote():void
     {
-        $this->votes--;
+        $this->dislikes++;
     }
 }
