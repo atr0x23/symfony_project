@@ -39,7 +39,7 @@ class MoviesController extends AbstractController
     public function bydate(MoviesRepository $moviesRepository):Response {
 
         $movies = $moviesRepository->findBy([],['createdAt' => 'DESC']);
-        return $this->render('movie/bydate.html.twig', ['movies' => $movies]);
+        return $this->render('movie/index.html.twig', ['movies' => $movies]);
 
     }
 
@@ -47,6 +47,20 @@ class MoviesController extends AbstractController
     public function byuser(MoviesRepository $moviesRepository, $id):Response
     {
         $movies = $moviesRepository->findBY(['user' => $id] );
+        return $this->render('movie/index.html.twig', ['movies' => $movies]);
+    }
+
+    #[Route('/bylikes', name: 'app_bylikes')]
+    public function bylike(MoviesRepository $moviesRepository):Response
+    {
+        $movies = $moviesRepository->findBY([], ['likes' => 'DESC'] );
+        return $this->render('movie/index.html.twig', ['movies' => $movies]);
+    }
+
+    #[Route('/byhates', name: 'app_byhates')]
+    public function byhate(MoviesRepository $moviesRepository):Response
+    {
+        $movies = $moviesRepository->findBY([], ['dislikes' => 'DESC'] );
         return $this->render('movie/index.html.twig', ['movies' => $movies]);
     }
 
@@ -64,7 +78,7 @@ class MoviesController extends AbstractController
             $current = $this->token->getToken()->getUser();
             $newMovie->setUser($current);
             $newMovie->setCreatedAt(new \DateTimeImmutable());
-            //$newMovie->setVotes(0);
+            $newMovie->setVoted(0);
 
             $this->em->persist($newMovie);
             $this->em->flush();
