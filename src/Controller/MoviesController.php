@@ -63,6 +63,7 @@ class MoviesController extends AbstractController
         $movies = $moviesRepository->findBY([], ['dislikes' => 'DESC'] );
         return $this->render('movie/index.html.twig', ['movies' => $movies]);
     }
+    
 
     #[Route('/movie/create', name: 'app_create')]
     public function createMovie(Request $request):Response
